@@ -1,28 +1,11 @@
 #coding=utf-8
 
-class Avatar(object):
-    pass
+import battle
+import avatar
 
-class Card(object):
-    pass
-
-class Buff(object):
-    pass
-
-class Battle(object):
-    pass
-
-class Equip(object):
-    pass
-
-class Skill(object):
-    pass
-
-class Library(object):
-    pass
-
-class Graveyard(object):
-    pass
-
-class Round(object):
-    pass
+if __name__ == '__main__':
+    p1 = avatar.RobotAvatar('r1')
+    p2 = avatar.RobotAvatar('r2')
+    avatar_list = [p1, p2]
+    battle = battle.Battle(avatar_list)
+    battle.start()

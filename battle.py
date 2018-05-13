@@ -1,25 +1,46 @@
 #coding=utf-8
 
+class Round(object):
+    pass
+
 class Battle(object):
-    def __init__(self, p1, p2):
-        self.p1 = p1
-        self.p2 = p2
+    def __init__(self, avatar_list):
+        assert(len(avatar_list) > 1)
+        self.avatar_list = avatar_list
         self.history_rounds = []
         self.cur_round = None
+        self.cur_turn = -1
+
+    def on_battle_begin(self):
+        for x in self.avatar_list:
+            x.battle = self
+
+    def on_battle_end(self):
+        pass
+
+    def is_end(self):
+        l = [x for x in self.avatar_list if x.is_alive()]
+        return len(l) <= 1
+
+    def new_round(self):
+        self.cur_round = Round()
+        self.cur_turn = (self.cur_turn + 1) % len(self.avatar_list)
+
+    def on_round_begin(self):
+        for x in self.avatar_list:
+            x.on_round_begin()
+
+    def on_round_end(self):
+        for x in self.avatar_list:
+            x.on_round_end()
+        self.history_rounds.insert(0, self.cur_round)
 
     def start(self):
-        while True:
-            self.cur_round = self.new_round(self.cur_round)
-            attacker = self.cur_round.attacker
-            defencer = self.cur_round.defencer
-            attacker.attack()
-            if attacker.dead():
-                pass
-            elif defencer.dead():
-                pass
-            elif attacker.exit():
-                pass
-            elif defencer.exit():
-                pass
-            else:
-                pass
+        self.on_battle_begin()
+        while not self.is_end():
+            self.new_round()
+            self.on_round_begin()
+            action_player = self.avatar_list[self.cur_turn]
+            action_player.action()
+            self.on_round_end()
+        self.on_battle_end()

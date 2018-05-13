@@ -1,6 +1,6 @@
 #coding=utf-8
 
-class Avatar(object):
+class BattleAvatar(object):
     def __init__(self):
         self.battle = None
         self.round = None
@@ -61,4 +61,25 @@ class Avatar(object):
         pass
 
     def dead(self):
+        pass
+
+class RobotAvatar(object):
+    def __init__(self, name):
+        self.name = name
+        self.hp = 4
+
+    def __str__(self):
+        return self.name
+
+    def action(self):
+        print("%s %s" % (self.name, self.hp))
+        self.hp -= 1
+
+    def is_alive(self):
+        return self.hp > 0
+
+    def on_round_begin(self):
+        pass
+
+    def on_round_end(self):
         pass
